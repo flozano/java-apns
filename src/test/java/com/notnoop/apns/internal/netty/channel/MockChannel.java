@@ -36,8 +36,6 @@ public class MockChannel extends EmbeddedChannel {
 
     @Override
     public ChannelFuture writeAndFlush(Object msg) {
-        ChannelFuture future = super.writeAndFlush(msg);
-
         ApnsNotification notification = null;
 
         if (msg instanceof ByteBuf) {
@@ -48,6 +46,8 @@ public class MockChannel extends EmbeddedChannel {
         if (msg instanceof ApnsNotification) {
             notification = (ApnsNotification) msg;
         }
+        
+        ChannelFuture future = super.writeAndFlush(msg);
 
         if (notification != null) {
             LOGGER.debug("Received message {}", notification);
