@@ -26,5 +26,12 @@ public class ApnsHandler extends SimpleChannelInboundHandler<DeliveryResult> {
         LOGGER.debug("Received message: {}", msg);
         listener.onDeliveryResult(ctx, msg);
     }
+    
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+            throws Exception {
+    	LOGGER.info("Exception while listening for result: " + cause.getMessage(),
+				cause);
+    }
 
 }
