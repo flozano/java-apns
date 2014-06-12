@@ -10,28 +10,29 @@ import com.notnoop.apns.DeliveryResult;
 
 public class ApnsHandler extends SimpleChannelInboundHandler<DeliveryResult> {
 
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(ApnsHandler.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(ApnsHandler.class);
 
-    private final DeliveryResultListener listener;
+	private final DeliveryResultListener listener;
 
-    public ApnsHandler(DeliveryResultListener listener) {
-        super(DeliveryResult.class);
-        this.listener = listener;
-    }
+	public ApnsHandler(DeliveryResultListener listener) {
+		super(DeliveryResult.class);
+		this.listener = listener;
+	}
 
-    @Override
-    public void channelRead0(ChannelHandlerContext ctx, DeliveryResult msg)
-            throws Exception {
-        LOGGER.debug("Received message: {}", msg);
-        listener.onDeliveryResult(ctx, msg);
-    }
-    
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
-            throws Exception {
-    	LOGGER.info("Exception while listening for result: " + cause.getMessage(),
+	@Override
+	public void channelRead0(ChannelHandlerContext ctx, DeliveryResult msg)
+			throws Exception {
+		LOGGER.debug("Received message: {}", msg);
+		listener.onDeliveryResult(ctx, msg);
+	}
+
+	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+			throws Exception {
+		LOGGER.warn(
+				"Exception while listening for result: " + cause.getMessage(),
 				cause);
-    }
+	}
 
 }
