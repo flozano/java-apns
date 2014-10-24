@@ -19,7 +19,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -32,9 +31,9 @@ import com.notnoop.apns.ApnsNotification;
 import com.notnoop.apns.ApnsService;
 import com.notnoop.apns.DeliveryError;
 import com.notnoop.apns.EnhancedApnsNotification;
-//import com.notnoop.apns.internal.netty.util.MockApnsServer;
+import com.notnoop.apns.internal.netty.util.MockApnsServer;
 import com.notnoop.apns.utils.FixedCertificates;
-import com.notnoop.apns.utils.MockApnsServer;
+//import com.notnoop.apns.utils.MockApnsServer;
 
 public class FixedApnsConnectionCacheTest {
     private static final Logger LOGGER = LoggerFactory
