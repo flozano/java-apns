@@ -79,6 +79,9 @@ public class MockApnsServer {
             try {
                 serverSocket = (SSLServerSocket) sslContext
                         .getServerSocketFactory().createServerSocket(port);
+                // Enable only TLS protocol
+                serverSocket.setEnabledProtocols(new String[] { "TLSv1",
+                        "TLSv1.1", "TLSv1.2" });
                 LOGGER.info("Server socket bound to port " + port);
             } catch (IOException e) {
                 LOGGER.error("Error bounding server socket to port " + port

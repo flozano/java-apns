@@ -260,6 +260,9 @@ public class MockApnsServer {
                     throws Exception {
                 SSLEngine engine = sslContext.createSSLEngine();
                 engine.setUseClientMode(false);
+                // Enable only TLS protocol
+                engine.setEnabledProtocols(new String[] { "TLSv1", "TLSv1.1",
+                        "TLSv1.2" });
                 channel.pipeline().addLast("ssl", new SslHandler(engine));
                 // channel.pipeline().addLast("log", new
                 // LoggingHandler(LogLevel.INFO));
