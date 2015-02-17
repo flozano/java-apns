@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.flozano.notnoop.apns</groupId>
 	<artifactId>apns</artifactId>
-	<version>0.2.5</version>
+	<version>0.2.6-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Java Apple Push Notification Service Library</name>
 
@@ -135,11 +135,11 @@
 						<bundleSymbolicName>${project.groupId}.${project.artifactId}</bundleSymbolicName>
 						<bundleVersion>${project.version}</bundleVersion>
 						<failOnWarnings>true</failOnWarnings>
-						<!-- Set the input path explicitly to ensure that it is never set to 
-							the target/generated-classes of the cobertua plugin. These classes contain 
-							references to cobertura classes and will mess up the generated manifest. 
-							If the default for inputPath is used, it will use target/generated-classes 
-							if other plugins run custom builds that include cobertura. If the path is 
+						<!-- Set the input path explicitly to ensure that it is never set to
+							the target/generated-classes of the cobertua plugin. These classes contain
+							references to cobertura classes and will mess up the generated manifest.
+							If the default for inputPath is used, it will use target/generated-classes
+							if other plugins run custom builds that include cobertura. If the path is
 							set explicitly it will always be target/classes. -->
 						<inputPath>${project.build.outputDirectory}</inputPath>
 					</configuration>
@@ -148,8 +148,8 @@
 		</pluginManagement>
 	</build>
 
-	<!-- <distributionManagement> <site> <id>gh-pages</id> <url>file:${project.basedir}/site</url> 
-		</site> <repository> <id>notnoop-m2-repository</id> <url>file:${project.basedir}/target/deploy/repo</url> 
+	<!-- <distributionManagement> <site> <id>gh-pages</id> <url>file:${project.basedir}/site</url>
+		</site> <repository> <id>notnoop-m2-repository</id> <url>file:${project.basedir}/target/deploy/repo</url>
 		</repository> </distributionManagement> -->
 	<dependencies>
 		<dependency>
@@ -193,7 +193,7 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-		<!-- <dependency> <groupId>org.eclipse.virgo.bundlor</groupId> <artifactId>org.eclipse.virgo.bundlor.maven</artifactId> 
+		<!-- <dependency> <groupId>org.eclipse.virgo.bundlor</groupId> <artifactId>org.eclipse.virgo.bundlor.maven</artifactId>
 			<version>1.1.1.RELEASE</version> <scope>compile</scope> </dependency> -->
 		<dependency>
 			<groupId>io.netty</groupId>
@@ -243,7 +243,7 @@
 				<version>2.3.1</version>
 			</plugin>
 
-			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>findbugs-maven-plugin</artifactId> 
+			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>findbugs-maven-plugin</artifactId>
 				<version>2.5.2</version> </plugin> -->
 		</plugins>
 	</reporting>
