@@ -14,10 +14,20 @@
 		<version>5</version>
 	</parent>
 
+	<properties>
+		<maven-compiler-plugin.version>3.2</maven-compiler-plugin.version>
+		<maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
+		<maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
+		<maven-javadoc-plugin.version>2.10.1</maven-javadoc-plugin.version>
+		<maven-release-plugin.version>2.5.1</maven-release-plugin.version>
+		<maven-source-plugin.version>2.4</maven-source-plugin.version>
+		<maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
+	</properties>
+
 	<scm>
-		<connection>scm:git:git://github.com/flozano/java-apns.git</connection>
+		<url>https://github.com/flozano/java-apns/</url>
+		<connection>scm:git:git@github.com:flozano/java-apns.git</connection>
 		<developerConnection>scm:git:git@github.com:flozano/java-apns.git</developerConnection>
-		<url>http://github.com/flozano/java-apns</url>
 		<tag>HEAD</tag>
 	</scm>
 
@@ -26,13 +36,94 @@
 	</properties>
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>${maven-gpg-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>${maven-release-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>${maven-deploy-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>${maven-javadoc-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>${maven-source-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven-compiler-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven-surefire-plugin.version}</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.apache.maven.surefire</groupId>
+							<artifactId>surefire-junit47</artifactId>
+							<version>${maven-surefire-plugin.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>${jacoco-maven-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.jacoco</groupId>
+										<artifactId>
+											jacoco-maven-plugin
+										</artifactId>
+										<versionRange>
+											[0.0.1,)
+										</versionRange>
+										<goals>
+											<goal>prepare-agent</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<inherited>true</inherited>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<debug>true</debug>
+					<debuglevel>source,lines,vars</debuglevel>
+					<compilerArgs>
+						<arg>-parameters</arg>
+					</compilerArgs>
+					<showDeprecation>true</showDeprecation>
+					<showWarnings>true</showWarnings>
+					<fork>true</fork>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -52,37 +143,16 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<version>3.0-beta-3</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
-				<version>2.4</version><!--$NO-MVN-MAN-VER$ -->
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.4</version>
 				<configuration>
-					<archive>
-						<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-					</archive>
+					<tagNameFormat>v@{project.version}</tagNameFormat>
 				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>test-jar</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9</version>
 				<executions>
 					<execution>
+						<id>attach-javadocs</id>
 						<goals>
 							<goal>jar</goal>
 							<goal>javadoc</goal>
@@ -90,67 +160,26 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.2.1</version>
 				<executions>
 					<execution>
-						<id>bind-sources</id>
+						<id>attach-sources</id>
 						<goals>
-							<goal>jar</goal>
+							<goal>jar-no-fork</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
 			<plugin>
 				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>2.8</version>
 				<configuration>
 					<downloadSources>true</downloadSources>
 					<downloadJavadocs>true</downloadJavadocs>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>com.springsource.bundlor</groupId>
-				<artifactId>com.springsource.bundlor.maven</artifactId>
-			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>com.springsource.bundlor</groupId>
-					<artifactId>com.springsource.bundlor.maven</artifactId>
-					<version>1.0.0.RELEASE</version>
-					<executions>
-						<execution>
-							<id>bundlor</id>
-							<phase>compile</phase>
-							<goals>
-								<goal>bundlor</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-						<bundleSymbolicName>${project.groupId}.${project.artifactId}</bundleSymbolicName>
-						<bundleVersion>${project.version}</bundleVersion>
-						<failOnWarnings>true</failOnWarnings>
-						<!-- Set the input path explicitly to ensure that it is never set to
-							the target/generated-classes of the cobertua plugin. These classes contain
-							references to cobertura classes and will mess up the generated manifest.
-							If the default for inputPath is used, it will use target/generated-classes
-							if other plugins run custom builds that include cobertura. If the path is
-							set explicitly it will always be target/classes. -->
-						<inputPath>${project.build.outputDirectory}</inputPath>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
-
-	<!-- <distributionManagement> <site> <id>gh-pages</id> <url>file:${project.basedir}/site</url>
-		</site> <repository> <id>notnoop-m2-repository</id> <url>file:${project.basedir}/target/deploy/repo</url>
-		</repository> </distributionManagement> -->
 	<dependencies>
 		<dependency>
 			<groupId>commons-codec</groupId>
@@ -163,6 +192,7 @@
 			<artifactId>logback-classic</artifactId>
 			<version>1.0.9</version>
 			<scope>test</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
@@ -186,15 +216,13 @@
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.1.4</version>
-			<type>jar</type>
-			<scope>compile</scope>
 		</dependency>
-		<!-- <dependency> <groupId>org.eclipse.virgo.bundlor</groupId> <artifactId>org.eclipse.virgo.bundlor.maven</artifactId>
-			<version>1.1.1.RELEASE</version> <scope>compile</scope> </dependency> -->
+
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-all</artifactId>
@@ -204,9 +232,9 @@
 	</dependencies>
 
 	<!-- Site Generation -->
-	<url>http://notnoop.github.com/java-apns</url>
+	<url>http://github.com/flozano/java-apns</url>
 	<description>
-        Library to send Apple Push Notification.
+        Library to send Apple Push Notification (Fork of original!)
     </description>
 
 	<licenses>
@@ -242,23 +270,41 @@
 				<artifactId>maven-clover2-plugin</artifactId>
 				<version>2.3.1</version>
 			</plugin>
-
-			<!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>findbugs-maven-plugin</artifactId>
-				<version>2.5.2</version> </plugin> -->
 		</plugins>
 	</reporting>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>com.springsource.repository.bundles.release</id>
-			<name>SpringSource Enterprise Bundle Repository</name>
-			<url>http://repository.springsource.com/maven/bundles/release</url>
-		</pluginRepository>
-	</pluginRepositories>
-
+	<profiles>
+		<profile>
+			<id>with-gpg</id>
+			<activation>
+				<property>
+					<name>user.name</name>
+					<value>flozano</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<configuration>
+							<useAgent>true</useAgent>
+						</configuration>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 	<issueManagement>
 		<system>Github</system>
-		<url>http://github.com/notnoop/java-apns/issues</url>
+		<url>http://github.com/flozano/java-apns/issues</url>
 	</issueManagement>
 
 	<developers>
@@ -272,4 +318,14 @@
 		</developer>
 	</developers>
 
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 </project>
