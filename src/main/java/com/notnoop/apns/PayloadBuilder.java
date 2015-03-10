@@ -34,6 +34,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.notnoop.apns.internal.Utilities;
 
@@ -63,8 +64,7 @@ public final class PayloadBuilder {
 	 * 
 	 * Sets the configuration to use alert body
 	 * 
-	 * @param use
-	 *            body
+	 * @param useBody
 	 */
 	public PayloadBuilder withAlertBody(boolean useBody) {
 		this.useBody = useBody;
@@ -273,7 +273,7 @@ public final class PayloadBuilder {
 	 * This method *adds* the custom fields in the map to the payload, and
 	 * subsequent calls add but doesn't reset the custom fields.
 	 *
-	 * @param map
+	 * @param values
 	 *            the custom map
 	 * @return this
 	 */

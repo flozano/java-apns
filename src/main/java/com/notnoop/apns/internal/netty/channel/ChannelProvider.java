@@ -6,8 +6,6 @@ import io.netty.channel.ChannelHandler;
 import java.io.IOException;
 import java.util.List;
 
-import com.notnoop.exceptions.ChannelProviderClosedException;
-
 /**
  * This class separates the channel handling/reconnecting from the actual
  * app-level logic of APNS.
@@ -16,12 +14,6 @@ import com.notnoop.exceptions.ChannelProviderClosedException;
  * 
  */
 public interface ChannelProvider {
-    /**
-     * Obtains the current channel, reconnecting if needed.
-     * 
-     * @return
-     */
-    // Channel getChannel();
 
     /**
      * Closes the channel provider, it implies to close current channel and stop
@@ -36,7 +28,6 @@ public interface ChannelProvider {
      * Closes the provided channel
      * 
      * @param channel
-     * @return
      */
     void closeChannel(Channel channel) throws IOException;
 

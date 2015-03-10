@@ -30,7 +30,15 @@
  */
 package com.notnoop.apns;
 
-import static com.notnoop.apns.internal.Utilities.*;
+import static com.notnoop.apns.internal.Utilities.PRODUCTION_FEEDBACK_HOST;
+import static com.notnoop.apns.internal.Utilities.PRODUCTION_FEEDBACK_PORT;
+import static com.notnoop.apns.internal.Utilities.PRODUCTION_GATEWAY_HOST;
+import static com.notnoop.apns.internal.Utilities.PRODUCTION_GATEWAY_PORT;
+import static com.notnoop.apns.internal.Utilities.SANDBOX_FEEDBACK_HOST;
+import static com.notnoop.apns.internal.Utilities.SANDBOX_FEEDBACK_PORT;
+import static com.notnoop.apns.internal.Utilities.SANDBOX_GATEWAY_HOST;
+import static com.notnoop.apns.internal.Utilities.SANDBOX_GATEWAY_PORT;
+import static com.notnoop.apns.internal.Utilities.newSSLContext;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 
@@ -202,7 +210,7 @@ public class ApnsServiceBuilder {
      * the `SSLContext` yourself! Needless to say, the password-protected
      * certificate is most recommended option.
      * 
-     * @param stream
+     * @param keyStore
      *            the keystore
      * @param password
      *            the password of the keystore
@@ -268,7 +276,7 @@ public class ApnsServiceBuilder {
      * Provide optionally a given event loop group. If none is provided, a new
      * one will be created for this service.
      * 
-     * @param eventLoopGroup
+     * @param nettyEventLoopGroup
      * @return
      */
     public ApnsServiceBuilder withNettyEventLoopGroup(
@@ -561,7 +569,7 @@ public class ApnsServiceBuilder {
      * Construct service which will process notification requests in batch.
      * After each request batch will wait <code>waitTimeInSec</code> for more
      * request to come before executing but not more than
-     * <code>maxWaitTimeInSec></code>
+     * <code>maxWaitTimeInSec</code>
      * 
      * Each batch creates new connection and close it after finished. In case
      * reconnect policy is specified it will be applied by batch processing.
