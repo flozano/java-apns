@@ -1,14 +1,14 @@
 package com.notnoop.apns.internal.netty.encoding;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.FixedLengthFrameDecoder;
-
 import java.io.IOException;
 
 import com.notnoop.apns.DeliveryError;
 import com.notnoop.apns.DeliveryResult;
 import com.notnoop.apns.internal.Utilities;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.FixedLengthFrameDecoder;
 
 public class ApnsResultDecoder extends FixedLengthFrameDecoder {
     private static final int FRAME_LENGTH = 6;
@@ -27,7 +27,7 @@ public class ApnsResultDecoder extends FixedLengthFrameDecoder {
         }
 
         byte[] bytes = new byte[FRAME_LENGTH];
-        frame.readBytes(bytes);
+        frame.readBytes(bytes).release();
 
         int command = bytes[0] & 0xFF;
         if (command != 8) {
