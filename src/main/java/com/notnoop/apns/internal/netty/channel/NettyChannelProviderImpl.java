@@ -1,5 +1,15 @@
 package com.notnoop.apns.internal.netty.channel;
 
+import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLEngine;
+
+import com.notnoop.apns.ReconnectPolicy;
+import com.notnoop.exceptions.ChannelProviderClosedException;
+
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -11,16 +21,6 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.ssl.SslHandler;
-
-import java.io.IOException;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLEngine;
-
-import com.notnoop.apns.ReconnectPolicy;
-import com.notnoop.exceptions.ChannelProviderClosedException;
 
 // TODO test
 public class NettyChannelProviderImpl extends AbstractChannelProvider {
