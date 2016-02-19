@@ -1,13 +1,5 @@
 package com.notnoop.apns.internal.netty;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -38,6 +30,15 @@ import com.notnoop.apns.internal.netty.encoding.ApnsResultDecoder;
 import com.notnoop.exceptions.ApnsDeliveryErrorException;
 import com.notnoop.exceptions.ChannelProviderClosedException;
 import com.notnoop.exceptions.NetworkIOException;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.timeout.WriteTimeoutHandler;
 
 public class NettyApnsConnectionImpl implements ApnsConnection,
         DeliveryResultListener, ChannelClosedListener {
@@ -117,7 +118,9 @@ public class NettyApnsConnectionImpl implements ApnsConnection,
                                 // handle
                                 // manually the conversion to ByteBuf
                                 /* new ApnsNotificationEncoder(), */
-                                new ApnsResultDecoder(), new ApnsHandler(
+                                new ApnsResultDecoder(),
+                                new WriteTimeoutHandler(10, TimeUnit.SECONDS),
+                                new ApnsHandler(
                                         NettyApnsConnectionImpl.this));
                     }
                 });
